@@ -7,17 +7,22 @@
 
 import UIKit
 
+protocol SegmentedCellDelegate {
+    func onValueChanged(cell: UISegmentedControl) -> Void
+}
+
 class SegmentedCell: UITableViewCell {
     var segmentedControl: UISegmentedControl!
+    var delegate: SegmentedCellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        self.selectionStyle = .none
         setupView()
     }
     
     func setupView() {
+        self.selectionStyle = .none
+        
         let horizontalPadding: CGFloat = 16
         
         let items = ["Date", "Interval"]
@@ -36,6 +41,6 @@ class SegmentedCell: UITableViewCell {
     }
     
     @objc func onValueChanged(_ sender: Any) {
-        
+        delegate?.onValueChanged(cell: segmentedControl)
     }
 }
