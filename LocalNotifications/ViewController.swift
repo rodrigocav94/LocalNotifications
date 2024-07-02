@@ -8,7 +8,7 @@
 import UIKit
 import UserNotifications
 
-class ViewController: UIViewController, UNUserNotificationCenterDelegate {
+class ViewController: UITableViewController, UNUserNotificationCenterDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,6 +59,10 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
         }
     }
     
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.banner, .list, .badge, .sound])
+    }
+    
     func registerCategories() {
         let center = UNUserNotificationCenter.current()
         center.delegate = self
@@ -102,3 +106,11 @@ class ViewController: UIViewController, UNUserNotificationCenterDelegate {
 
 }
 
+
+#Preview {
+    UIStoryboard(
+        name: "Main",
+        bundle: nil
+    )
+    .instantiateInitialViewController()!
+}
