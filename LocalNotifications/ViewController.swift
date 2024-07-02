@@ -8,14 +8,17 @@
 import UIKit
 import UserNotifications
 
-class ViewController: UITableViewController, UNUserNotificationCenterDelegate {
-
+class ViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Register", style: .plain, target: self, action: #selector(registerLocal))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Schedule", style: .plain, target: self, action: #selector(scheduleLocal))
     }
+}
 
+// MARK: - Alert Related Methods
+extension ViewController: UNUserNotificationCenterDelegate  {
+    
     @objc func registerLocal() {
         let center = UNUserNotificationCenter.current()
         
@@ -25,37 +28,6 @@ class ViewController: UITableViewController, UNUserNotificationCenterDelegate {
             } else {
                 print("D'oh!")
             }
-        }
-    }
-    
-    @objc func scheduleLocal() {
-        registerCategories()
-        let center = UNUserNotificationCenter.current()
-        
-        let content = UNMutableNotificationContent()
-        content.title = "Late wake up call"
-        content.body = "The early bird catches worm, but the second mouse gets the cheese"
-        content.categoryIdentifier = "alarm"
-        content.userInfo = ["customData": "fizzbuzz"]
-        content.sound = UNNotificationSound.default
-        
-        let trigger = createTrigger()
-        
-        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-        
-        center.add(request)
-    }
-    
-    func createTrigger(hour: Int? = nil, minute: Int? = nil) -> UNNotificationTrigger {
-        if let hour, let minute {
-            var dateComponents = DateComponents()
-            dateComponents.hour = hour
-            dateComponents.minute = minute
-            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
-            return trigger
-        } else {
-            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
-            return trigger
         }
     }
     
@@ -103,10 +75,40 @@ class ViewController: UITableViewController, UNUserNotificationCenterDelegate {
         // you must call the completion handler when you're done
         completionHandler()
     }
-
+    
+    @objc func scheduleLocal() {
+        registerCategories()
+        let center = UNUserNotificationCenter.current()
+        
+        let content = UNMutableNotificationContent()
+        content.title = "Late wake up call"
+        content.body = "The early bird catches worm, but the second mouse gets the cheese"
+        content.categoryIdentifier = "alarm"
+        content.userInfo = ["customData": "fizzbuzz"]
+        content.sound = UNNotificationSound.default
+        
+        let trigger = createTrigger()
+        
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+        
+        center.add(request)
+    }
+    
+    func createTrigger(hour: Int? = nil, minute: Int? = nil) -> UNNotificationTrigger {
+        if let hour, let minute {
+            var dateComponents = DateComponents()
+            dateComponents.hour = hour
+            dateComponents.minute = minute
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+            return trigger
+        } else {
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+            return trigger
+        }
+    }
 }
 
-
+// MARK: - Preview
 #Preview {
     UIStoryboard(
         name: "Main",
