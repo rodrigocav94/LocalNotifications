@@ -11,8 +11,33 @@ import UserNotifications
 class ViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        registerCells()
+        setupNavBar()
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        1
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        1
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SegmentedCell", for: indexPath)
+        return cell
+    }
+    
+    func setupNavBar() {
+        title = "LocalNotifications"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Register", style: .plain, target: self, action: #selector(registerLocal))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Schedule", style: .plain, target: self, action: #selector(scheduleLocal))
+    }
+    
+    func registerCells() {
+        tableView.register(UINib(nibName: "SegmentedCell", bundle: nil), forCellReuseIdentifier: "SegmentedCell")
     }
 }
 
