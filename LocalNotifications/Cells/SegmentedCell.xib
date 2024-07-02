@@ -15,29 +15,8 @@
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
-                <subviews>
-                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="NVA-Uu-shk">
-                        <rect key="frame" x="16" y="7" width="288" height="31"/>
-                        <segments>
-                            <segment title="First"/>
-                            <segment title="Second"/>
-                        </segments>
-                        <connections>
-                            <action selector="onValueChanged:" destination="KGk-i7-Jjw" eventType="valueChanged" id="uSB-dA-gsc"/>
-                        </connections>
-                    </segmentedControl>
-                </subviews>
-                <constraints>
-                    <constraint firstItem="NVA-Uu-shk" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="DZF-qw-pfH"/>
-                    <constraint firstItem="NVA-Uu-shk" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="UOm-IN-jaw"/>
-                    <constraint firstItem="NVA-Uu-shk" firstAttribute="height" secondItem="H2p-sc-9uM" secondAttribute="height" multiplier="0.681818" id="ac9-IU-FJB"/>
-                    <constraint firstAttribute="trailing" secondItem="NVA-Uu-shk" secondAttribute="trailing" constant="16" id="qd4-IY-b40"/>
-                </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
-            <connections>
-                <outlet property="segmentedControl" destination="NVA-Uu-shk" id="rlI-1r-wpy"/>
-            </connections>
             <point key="canvasLocation" x="29" y="20"/>
         </tableViewCell>
     </objects>
