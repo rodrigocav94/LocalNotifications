@@ -20,7 +20,8 @@ class TextViewCell: UITableViewCell, UITextViewDelegate {
     }()
     
     let textView = {
-        let textView = UITextView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: 900, height: 160)))
+        let textView = UITextView()
+        textView.backgroundColor = .clear
         textView.isEditable = true
         textView.font = UIFont.preferredFont(forTextStyle: .body)
         textView.textColor = .label
