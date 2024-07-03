@@ -14,6 +14,7 @@
 		9F67E7F62C2DC93E00C2CEB5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F67E7F52C2DC93E00C2CEB5 /* Assets.xcassets */; };
 		9F67E7F92C2DC93E00C2CEB5 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 9F67E7F82C2DC93E00C2CEB5 /* Base */; };
 		9F81BED82C35B8E300B28C92 /* KGAlwaysAGoodTime.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9F81BED72C35B8E300B28C92 /* KGAlwaysAGoodTime.ttf */; };
+		9F81BEDA2C35BDB000B28C92 /* TextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F81BED92C35BDB000B28C92 /* TextFieldCell.swift */; };
 		9FB651E82C349050002B6D90 /* SegmentedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB651E52C349050002B6D90 /* SegmentedCell.swift */; };
 		9FB651EA2C34BA41002B6D90 /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB651E92C34BA41002B6D90 /* ButtonCell.swift */; };
 		9FB651EC2C35176D002B6D90 /* DatePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB651EB2C35176D002B6D90 /* DatePickerCell.swift */; };
@@ -30,6 +31,7 @@
 		9F67E7F82C2DC93E00C2CEB5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9F67E7FA2C2DC93E00C2CEB5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9F81BED72C35B8E300B28C92 /* KGAlwaysAGoodTime.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = KGAlwaysAGoodTime.ttf; sourceTree = "<group>"; };
+		9F81BED92C35BDB000B28C92 /* TextFieldCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldCell.swift; sourceTree = "<group>"; };
 		9FB651E52C349050002B6D90 /* SegmentedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedCell.swift; sourceTree = "<group>"; };
 		9FB651E92C34BA41002B6D90 /* ButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCell.swift; sourceTree = "<group>"; };
 		9FB651EB2C35176D002B6D90 /* DatePickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerCell.swift; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 				9FB651E92C34BA41002B6D90 /* ButtonCell.swift */,
 				9FB651EB2C35176D002B6D90 /* DatePickerCell.swift */,
 				9FB651ED2C352C5E002B6D90 /* ToggleCell.swift */,
+				9F81BED92C35BDB000B28C92 /* TextFieldCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -177,6 +180,7 @@
 				9FB651EA2C34BA41002B6D90 /* ButtonCell.swift in Sources */,
 				9FB651E82C349050002B6D90 /* SegmentedCell.swift in Sources */,
 				9FB651EE2C352C5E002B6D90 /* ToggleCell.swift in Sources */,
+				9F81BEDA2C35BDB000B28C92 /* TextFieldCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

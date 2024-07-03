@@ -19,7 +19,7 @@ class ViewController: UITableViewController {
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        3
+        4
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -27,8 +27,10 @@ class ViewController: UITableViewController {
         case 0:
             2
         case 1:
-            3
+            1
         case 2:
+            3
+        case 3:
             1
         default:
             0
@@ -46,6 +48,8 @@ class ViewController: UITableViewController {
                 buttonSettings = .removePendingNotifications
             }
         case 1:
+            id = "TextFieldCell"
+        case 2:
             switch indexPath.row {
             case 0:
                 id = "SegmentedCell"
@@ -57,7 +61,7 @@ class ViewController: UITableViewController {
                 break
             }
             
-        case 2:
+        case 3:
             id = "ButtonCell"
             buttonSettings = .scheduleNotification
             
@@ -79,6 +83,8 @@ class ViewController: UITableViewController {
             datePickerCell.setup(delegate: self, datePicker: &datePicker)
         } else if let toggleCell = cell as? ToggleCell {
             toggleCell.setup(title: "Repeat", delegate: self)
+        } else if let textFieldCell = cell as? TextFieldCell {
+            textFieldCell.setup(title: "Title", placeholder: "Enter the notification title", delegate: self)
         }
         
         return cell
@@ -89,6 +95,8 @@ class ViewController: UITableViewController {
         case 0:
             return "Shortcuts"
         case 1:
+            return "Customize message"
+        case 2:
             return "Schedule a new notification"
         default:
             break
@@ -106,6 +114,13 @@ class ViewController: UITableViewController {
         tableView.register(ButtonCell.self, forCellReuseIdentifier: "ButtonCell")
         tableView.register(DatePickerCell.self, forCellReuseIdentifier: "DatePickerCell")
         tableView.register(ToggleCell.self, forCellReuseIdentifier: "ToggleCell")
+        tableView.register(TextFieldCell.self, forCellReuseIdentifier: "TextFieldCell")
+    }
+}
+// MARK: - TextField Methods
+extension ViewController: TextFieldDelegate {
+    func onTextFieldChanged(text: String) {
+        return
     }
 }
 
