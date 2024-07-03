@@ -12,8 +12,6 @@ protocol ButtonCellDelegate {
 }
 
 class ButtonCell: UITableViewCell {
-    var buttonTapCallback: () -> ()  = { }
-    
     let button: UIButton = {
         let btn = UIButton()
         btn.setTitle("Button", for: .normal)

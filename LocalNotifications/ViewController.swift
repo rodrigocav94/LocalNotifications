@@ -9,6 +9,8 @@ import UIKit
 import UserNotifications
 
 class ViewController: UITableViewController {
+    var datePicker: UIDatePicker?  = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         registerCells()
@@ -24,8 +26,10 @@ class ViewController: UITableViewController {
         switch section {
         case 0:
             2
+        case 1:
+            2
         default:
-            1
+            0
         }
     }
     
@@ -40,7 +44,14 @@ class ViewController: UITableViewController {
                 buttonSettings = .removePendingNotifications
             }
         case 1:
-            id = "SegmentedCell"
+            switch indexPath.row {
+            case 0:
+                id = "SegmentedCell"
+            case 1:
+                id = "DatePickerCell"
+            default:
+                break
+            }
         default:
             break
         }
@@ -53,6 +64,10 @@ class ViewController: UITableViewController {
                 color: buttonSettings.color,
                 delegate: self
             )
+        } else if let segmentedCell = cell as? SegmentedCell {
+            segmentedCell.delegate = self
+        } else if let datePickerCell = cell as? DatePickerCell {
+            datePickerCell.setup(delegate: self, datePicker: &datePicker)
         }
         
         return cell
@@ -63,7 +78,7 @@ class ViewController: UITableViewController {
         case 0:
             return "Shortcuts"
         case 1:
-            return "Setup a new notification"
+            return "Schedule a new notification"
         default:
             break
         }
@@ -80,6 +95,41 @@ class ViewController: UITableViewController {
     func registerCells() {
         tableView.register(SegmentedCell.self, forCellReuseIdentifier: "SegmentedCell")
         tableView.register(ButtonCell.self, forCellReuseIdentifier: "ButtonCell")
+        tableView.register(DatePickerCell.self, forCellReuseIdentifier: "DatePickerCell")
+    }
+}
+// MARK: - Segmented Control Methods
+extension ViewController: SegmentedCellDelegate {
+    func onSegmentedValueChanged(control: UISegmentedControl) {
+        guard let newValue = DatePickerType(rawValue: control.selectedSegmentIndex) else { return }
+        customizeDatePicker(to: newValue)
+    }
+}
+
+// MARK: - DatePicker Methods
+extension ViewController: DatePickerDelegate {
+    func onDateChanged(date: Date) {
+        return
+    }
+    
+    func customizeDatePicker(to type: DatePickerType) {
+        switch type {
+            
+        case .dateAndTime:
+            datePicker?.minimumDate = .now
+            datePicker?.datePickerMode = .dateAndTime
+            datePicker?.preferredDatePickerStyle = .inline
+            
+        case .time:
+            datePicker?.minimumDate = nil
+            datePicker?.datePickerMode = .time
+            datePicker?.preferredDatePickerStyle = .wheels
+            
+        case .countDownTimer:
+            datePicker?.minimumDate = nil
+            datePicker?.preferredDatePickerStyle = .wheels
+            datePicker?.datePickerMode = .countDownTimer
+        }
     }
 }
 

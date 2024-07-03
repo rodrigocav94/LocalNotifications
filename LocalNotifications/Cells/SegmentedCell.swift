@@ -8,12 +8,14 @@
 import UIKit
 
 protocol SegmentedCellDelegate {
-    func onValueChanged(control: UISegmentedControl) -> Void
+    func onSegmentedValueChanged(control: UISegmentedControl) -> Void
 }
 
 class SegmentedCell: UITableViewCell {
     let segmentedControl: UISegmentedControl = {
-        let items = ["Date", "Interval"]
+        let items = DatePickerType.allCases.map {
+            $0.title
+        }
         let segmentedControl = UISegmentedControl(items: items)
         segmentedControl.selectedSegmentIndex = 0
         return segmentedControl
@@ -21,8 +23,8 @@ class SegmentedCell: UITableViewCell {
     
     var delegate: SegmentedCellDelegate?
     
-    @objc func onValueChanged(_ sender: Any) {
-        delegate?.onValueChanged(control: segmentedControl)
+    @objc func onSegmentedValueChanged(_ sender: Any) {
+        delegate?.onSegmentedValueChanged(control: segmentedControl)
     }
     
     
@@ -30,7 +32,7 @@ class SegmentedCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         // Segmented Control
         contentView.addSubview(segmentedControl)
-        segmentedControl.addTarget(self, action: #selector(onValueChanged), for: .valueChanged)
+        segmentedControl.addTarget(self, action: #selector(onSegmentedValueChanged), for: .valueChanged)
         
         // Set constraints
         let horizontalPadding: CGFloat = 16
