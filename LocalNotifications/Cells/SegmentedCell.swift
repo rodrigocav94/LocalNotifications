@@ -8,39 +8,41 @@
 import UIKit
 
 protocol SegmentedCellDelegate {
-    func onValueChanged(cell: UISegmentedControl) -> Void
+    func onValueChanged(control: UISegmentedControl) -> Void
 }
 
 class SegmentedCell: UITableViewCell {
-    var segmentedControl: UISegmentedControl!
+    let segmentedControl: UISegmentedControl = {
+        let items = ["Date", "Interval"]
+        let segmentedControl = UISegmentedControl(items: items)
+        segmentedControl.selectedSegmentIndex = 0
+        return segmentedControl
+    }()
+    
     var delegate: SegmentedCellDelegate?
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        setupView()
+    @objc func onValueChanged(_ sender: Any) {
+        delegate?.onValueChanged(control: segmentedControl)
     }
     
-    func setupView() {
-        self.selectionStyle = .none
-        
-        let horizontalPadding: CGFloat = 16
-        
-        let items = ["Date", "Interval"]
-        segmentedControl = UISegmentedControl(items: items)
-        segmentedControl.selectedSegmentIndex = 0
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        // Segmented Control
+        contentView.addSubview(segmentedControl)
         segmentedControl.addTarget(self, action: #selector(onValueChanged), for: .valueChanged)
+        
+        // Set constraints
+        let horizontalPadding: CGFloat = 16
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
-        
-        self.addSubview(segmentedControl)
-        
         NSLayoutConstraint.activate([
-            segmentedControl.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: horizontalPadding * -1),
-            segmentedControl.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: horizontalPadding),
-            segmentedControl.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+            segmentedControl.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: horizontalPadding * -1),
+            segmentedControl.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: horizontalPadding),
+            segmentedControl.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     }
     
-    @objc func onValueChanged(_ sender: Any) {
-        delegate?.onValueChanged(cell: segmentedControl)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

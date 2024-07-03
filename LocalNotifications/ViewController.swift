@@ -13,10 +13,11 @@ class ViewController: UITableViewController {
         super.viewDidLoad()
         registerCells()
         setupNavBar()
+        tableView.allowsSelection = false
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        1
+        2
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -24,7 +25,13 @@ class ViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SegmentedCell", for: indexPath)
+        let id = indexPath.section == 0 ? "ButtonCell" : "SegmentedCell"
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: id, for: indexPath)
+        
+//        if let cellButton = cell as? ButtonCell {
+//            cellButton.setupView()
+//        }
         return cell
     }
     
@@ -37,7 +44,8 @@ class ViewController: UITableViewController {
     }
     
     func registerCells() {
-        tableView.register(UINib(nibName: "SegmentedCell", bundle: nil), forCellReuseIdentifier: "SegmentedCell")
+        tableView.register(SegmentedCell.self, forCellReuseIdentifier: "SegmentedCell")
+        tableView.register(ButtonCell.self, forCellReuseIdentifier: "ButtonCell")
     }
 }
 
