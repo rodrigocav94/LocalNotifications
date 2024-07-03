@@ -18,12 +18,11 @@ class ButtonCell: UITableViewCell {
         let btn = UIButton()
         btn.setTitle("Button", for: .normal)
         btn.titleLabel?.font = UIFont.preferredFont(forTextStyle: .headline)
-        btn.setTitleColor(.tintColor, for: .normal)
         btn.contentHorizontalAlignment = .leading
         return btn
     }()
     
-    var delegate: ButtonCellDelegate?
+    private var delegate: ButtonCellDelegate?
     
     @objc func onDidTapButton(cell: ButtonCell) -> Void {
         delegate?.onDidTapButton(cell: self)
@@ -47,5 +46,11 @@ class ButtonCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func customize(title: String, color: UIColor, delegate: ButtonCellDelegate) {
+        self.delegate = delegate
+        button.setTitle(title, for: .normal)
+        button.setTitleColor(color, for: .normal)
     }
 }

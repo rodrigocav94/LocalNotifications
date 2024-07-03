@@ -21,25 +21,59 @@ class ViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1
+        switch section {
+        case 0:
+            2
+        default:
+            1
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let id = indexPath.section == 0 ? "ButtonCell" : "SegmentedCell"
+        var id = ""
+        var buttonSettings = ViewControllerButton.requestPermission
+        
+        switch indexPath.section {
+        case 0:
+            id = "ButtonCell"
+            if indexPath.row == 1 {
+                buttonSettings = .removePendingNotifications
+            }
+        case 1:
+            id = "SegmentedCell"
+        default:
+            break
+        }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: id, for: indexPath)
         
-//        if let cellButton = cell as? ButtonCell {
-//            cellButton.setupView()
-//        }
+        if let buttonCell = cell as? ButtonCell {
+            buttonCell.customize(
+                title: buttonSettings.title,
+                color: buttonSettings.color,
+                delegate: self
+            )
+        }
+        
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch section {
+        case 0:
+            return "Shortcuts"
+        case 1:
+            return "Setup a new notification"
+        default:
+            break
+        }
+        return nil
     }
     
     func setupNavBar() {
         title = "LocalNotifications"
         navigationController?.navigationBar.prefersLargeTitles = true
-        
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Register", style: .plain, target: self, action: #selector(registerLocal))
+
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Schedule", style: .plain, target: self, action: #selector(scheduleLocal))
     }
     
@@ -49,10 +83,52 @@ class ViewController: UITableViewController {
     }
 }
 
-// MARK: - Alert Related Methods
+// MARK: - Button Related Methods
+enum ViewControllerButton: CaseIterable {
+    case requestPermission, scheduleNotification, removePendingNotifications
+    
+    var title: String {
+        switch self {
+        case .requestPermission:
+            "Request Notification Permission"
+        case .scheduleNotification:
+            "Schedule Notification"
+        case .removePendingNotifications:
+            "Remove All Pending Notifications"
+        }
+    }
+    
+    var color: UIColor {
+        switch self {
+        case .removePendingNotifications:
+            .red
+        default:
+            .tintColor
+        }
+    }
+}
+
+extension ViewController: ButtonCellDelegate {
+    func onDidTapButton(cell: ButtonCell) {
+        guard let buttonType = ViewControllerButton.allCases.first(where: {
+            $0.title == cell.button.titleLabel?.text
+        }) else { return }
+        
+        switch buttonType {
+        case .requestPermission:
+            registerLocal()
+        case .removePendingNotifications:
+            removePendingNotifications()
+        case .scheduleNotification:
+            scheduleLocal()
+        }
+    }
+}
+
+// MARK: - Notification Related Methods
 extension ViewController: UNUserNotificationCenterDelegate  {
     
-    @objc func registerLocal() {
+    func registerLocal() {
         let center = UNUserNotificationCenter.current()
         
         center.requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
@@ -138,6 +214,11 @@ extension ViewController: UNUserNotificationCenterDelegate  {
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
             return trigger
         }
+    }
+    
+    func removePendingNotifications() {
+        let center = UNUserNotificationCenter.current()
+        center.removeAllPendingNotificationRequests()
     }
 }
 
