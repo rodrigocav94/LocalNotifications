@@ -27,7 +27,7 @@ class ViewController: UITableViewController {
         case 0:
             2
         case 1:
-            2
+            4
         default:
             0
         }
@@ -49,6 +49,11 @@ class ViewController: UITableViewController {
                 id = "SegmentedCell"
             case 1:
                 id = "DatePickerCell"
+            case 2:
+                id = "ToggleCell"
+            case 3:
+                id = "ButtonCell"
+                buttonSettings = .scheduleNotification
             default:
                 break
             }
@@ -68,6 +73,8 @@ class ViewController: UITableViewController {
             segmentedCell.delegate = self
         } else if let datePickerCell = cell as? DatePickerCell {
             datePickerCell.setup(delegate: self, datePicker: &datePicker)
+        } else if let toggleCell = cell as? ToggleCell {
+            toggleCell.setup(title: "Repeat", delegate: self)
         }
         
         return cell
@@ -96,8 +103,17 @@ class ViewController: UITableViewController {
         tableView.register(SegmentedCell.self, forCellReuseIdentifier: "SegmentedCell")
         tableView.register(ButtonCell.self, forCellReuseIdentifier: "ButtonCell")
         tableView.register(DatePickerCell.self, forCellReuseIdentifier: "DatePickerCell")
+        tableView.register(ToggleCell.self, forCellReuseIdentifier: "ToggleCell")
     }
 }
+
+// MARK: - Toggle Methods
+extension ViewController: ToggleCellDelegate {
+    func onToggleChanged(isEnabled: Bool) {
+        return
+    }
+}
+
 // MARK: - Segmented Control Methods
 extension ViewController: SegmentedCellDelegate {
     func onSegmentedValueChanged(control: UISegmentedControl) {
@@ -114,7 +130,6 @@ extension ViewController: DatePickerDelegate {
     
     func customizeDatePicker(to type: DatePickerType) {
         switch type {
-            
         case .dateAndTime:
             datePicker?.minimumDate = .now
             datePicker?.datePickerMode = .dateAndTime
