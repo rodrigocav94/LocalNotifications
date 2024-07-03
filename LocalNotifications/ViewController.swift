@@ -10,6 +10,10 @@ import UserNotifications
 
 class ViewController: UITableViewController {
     var datePicker: UIDatePicker?  = nil
+    var notificationTitle = ""
+    var notificationMessage = ""
+    var repeats = false
+    var dateType = DatePickerType.dateAndTime
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -132,21 +136,21 @@ class ViewController: UITableViewController {
 // MARK: - TextView Methods
 extension ViewController: TextViewCellDelegate {
     func textViewDidChange(text: String) {
-        return
+        notificationMessage = text
     }
 }
 
 // MARK: - TextField Methods
 extension ViewController: TextFieldDelegate {
     func onTextFieldChanged(text: String) {
-        return
+        notificationTitle = text
     }
 }
 
 // MARK: - Toggle Methods
 extension ViewController: ToggleCellDelegate {
     func onToggleChanged(isEnabled: Bool) {
-        return
+        repeats = isEnabled
     }
 }
 
@@ -155,6 +159,7 @@ extension ViewController: SegmentedCellDelegate {
     func onSegmentedValueChanged(control: UISegmentedControl) {
         guard let newValue = DatePickerType(rawValue: control.selectedSegmentIndex) else { return }
         customizeDatePicker(to: newValue)
+        dateType = newValue
     }
 }
 
@@ -293,8 +298,8 @@ extension ViewController: UNUserNotificationCenterDelegate  {
         let center = UNUserNotificationCenter.current()
         
         let content = UNMutableNotificationContent()
-        content.title = "Late wake up call"
-        content.body = "The early bird catches worm, but the second mouse gets the cheese"
+        content.title = notificationTitle
+        content.body = notificationMessage
         content.categoryIdentifier = "alarm"
         content.userInfo = ["customData": "fizzbuzz"]
         content.sound = UNNotificationSound.default
@@ -302,19 +307,57 @@ extension ViewController: UNUserNotificationCenterDelegate  {
         let trigger = createTrigger()
         
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-        
         center.add(request)
     }
     
-    func createTrigger(hour: Int? = nil, minute: Int? = nil) -> UNNotificationTrigger {
-        if let hour, let minute {
-            var dateComponents = DateComponents()
-            dateComponents.hour = hour
-            dateComponents.minute = minute
-            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+    func triggerNotificationImmediately() {
+        let center = UNUserNotificationCenter.current()
+        
+        let content = UNMutableNotificationContent()
+        content.title = notificationTitle
+        content.body = notificationMessage
+        content.categoryIdentifier = "alarm"
+        content.userInfo = ["customData": "fizzbuzz"]
+        content.sound = UNNotificationSound.default
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
+        
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+        center.add(request)
+    }
+    
+    func createTrigger() -> UNNotificationTrigger {
+        let datePickerDate = datePicker?.date ?? Date()
+        var dateComponents = Calendar.current.dateComponents([.hour, .minute, .month, .day, .year], from: datePickerDate)
+        let currentDateComponents = Calendar.current.dateComponents([.hour, .minute, .month, .day, .year], from: Date())
+        
+        switch dateType {
+        case .dateAndTime:
+            if datePickerDate <= Date() {
+                if repeats {
+                    triggerNotificationImmediately()
+                } else {
+                    return UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
+                }
+            }
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: repeats)
             return trigger
-        } else {
-            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+        case .time:
+            if (dateComponents.minute, dateComponents.hour) == (currentDateComponents.minute, currentDateComponents.hour) {
+                if repeats {
+                    triggerNotificationImmediately()
+                } else {
+                    return UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
+                }
+            }
+            dateComponents.month = nil
+            dateComponents.day = nil
+            dateComponents.year = nil
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: repeats)
+            return trigger
+        case .countDownTimer:
+            let duration = datePicker?.countDownDuration ?? 60
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: duration, repeats: repeats)
             return trigger
         }
     }

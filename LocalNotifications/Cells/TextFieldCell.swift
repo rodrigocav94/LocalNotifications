@@ -11,7 +11,7 @@ protocol TextFieldDelegate {
     func onTextFieldChanged(text: String)
 }
 
-class TextFieldCell: UITableViewCell {
+class TextFieldCell: UITableViewCell, UITextFieldDelegate {
     let title = {
         let title = UILabel()
         title.text = "Textfield Title"
@@ -28,9 +28,12 @@ class TextFieldCell: UITableViewCell {
     
     private var delegate: TextFieldDelegate?
     
-    @objc func onTextFieldChanged() {
-        guard let text = textField.text else { return }
-        delegate?.onTextFieldChanged(text: text)
+    func textField(_ textField: UITextField,
+                       shouldChangeCharactersIn range: NSRange,
+                       replacementString string: String) -> Bool {
+        guard let text = textField.text else { return true }
+        delegate?.onTextFieldChanged(text: text.appending(string))
+        return true
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -42,7 +45,6 @@ class TextFieldCell: UITableViewCell {
         container.axis = .horizontal
         container.spacing = horizontalPadding
         contentView.addSubview(container)
-        textField.addTarget(self, action: #selector(onTextFieldChanged), for: .valueChanged)
 
         //Set constraints as per your requirements
         container.translatesAutoresizingMaskIntoConstraints = false
@@ -58,6 +60,7 @@ class TextFieldCell: UITableViewCell {
     }
     
     func setup(title: String, placeholder: String, delegate: TextFieldDelegate) {
+        textField.delegate = self
         self.title.text = title
         self.textField.placeholder = placeholder
         self.delegate = delegate
