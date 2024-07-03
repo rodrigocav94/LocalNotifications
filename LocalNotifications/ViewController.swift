@@ -284,7 +284,7 @@ extension ViewController: UNUserNotificationCenterDelegate  {
         
         let reschedule = UNNotificationAction(
             identifier: "reschedule",
-            title: "Remind me tomorrow.",
+            title: "Remind me tomorrow",
             options: .foreground
         )
         
