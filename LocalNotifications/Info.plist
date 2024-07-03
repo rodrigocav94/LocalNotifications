@@ -21,5 +21,9 @@
 			</array>
 		</dict>
 	</dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>KGAlwaysAGoodTime.ttf</string>
+	</array>
 </dict>
 </plist>

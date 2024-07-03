@@ -13,6 +13,7 @@
 		9F67E7F42C2DC93C00C2CEB5 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 9F67E7F32C2DC93C00C2CEB5 /* Base */; };
 		9F67E7F62C2DC93E00C2CEB5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F67E7F52C2DC93E00C2CEB5 /* Assets.xcassets */; };
 		9F67E7F92C2DC93E00C2CEB5 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 9F67E7F82C2DC93E00C2CEB5 /* Base */; };
+		9F81BED82C35B8E300B28C92 /* KGAlwaysAGoodTime.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9F81BED72C35B8E300B28C92 /* KGAlwaysAGoodTime.ttf */; };
 		9FB651E82C349050002B6D90 /* SegmentedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB651E52C349050002B6D90 /* SegmentedCell.swift */; };
 		9FB651EA2C34BA41002B6D90 /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB651E92C34BA41002B6D90 /* ButtonCell.swift */; };
 		9FB651EC2C35176D002B6D90 /* DatePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB651EB2C35176D002B6D90 /* DatePickerCell.swift */; };
@@ -28,6 +29,7 @@
 		9F67E7F52C2DC93E00C2CEB5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9F67E7F82C2DC93E00C2CEB5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9F67E7FA2C2DC93E00C2CEB5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9F81BED72C35B8E300B28C92 /* KGAlwaysAGoodTime.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = KGAlwaysAGoodTime.ttf; sourceTree = "<group>"; };
 		9FB651E52C349050002B6D90 /* SegmentedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedCell.swift; sourceTree = "<group>"; };
 		9FB651E92C34BA41002B6D90 /* ButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCell.swift; sourceTree = "<group>"; };
 		9FB651EB2C35176D002B6D90 /* DatePickerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerCell.swift; sourceTree = "<group>"; };
@@ -64,16 +66,25 @@
 		9F67E7EB2C2DC93C00C2CEB5 /* LocalNotifications */ = {
 			isa = PBXGroup;
 			children = (
+				9F81BED62C35B8C300B28C92 /* Resources */,
 				9F67E7EC2C2DC93C00C2CEB5 /* AppDelegate.swift */,
 				9F67E7EE2C2DC93C00C2CEB5 /* SceneDelegate.swift */,
 				9F67E7F02C2DC93C00C2CEB5 /* ViewController.swift */,
 				9FB651E42C348FBB002B6D90 /* Cells */,
-				9F67E7F22C2DC93C00C2CEB5 /* Main.storyboard */,
-				9F67E7F52C2DC93E00C2CEB5 /* Assets.xcassets */,
-				9F67E7F72C2DC93E00C2CEB5 /* LaunchScreen.storyboard */,
 				9F67E7FA2C2DC93E00C2CEB5 /* Info.plist */,
 			);
 			path = LocalNotifications;
+			sourceTree = "<group>";
+		};
+		9F81BED62C35B8C300B28C92 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9F81BED72C35B8E300B28C92 /* KGAlwaysAGoodTime.ttf */,
+				9F67E7F22C2DC93C00C2CEB5 /* Main.storyboard */,
+				9F67E7F52C2DC93E00C2CEB5 /* Assets.xcassets */,
+				9F67E7F72C2DC93E00C2CEB5 /* LaunchScreen.storyboard */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		9FB651E42C348FBB002B6D90 /* Cells */ = {
@@ -146,6 +157,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9F67E7F62C2DC93E00C2CEB5 /* Assets.xcassets in Resources */,
+				9F81BED82C35B8E300B28C92 /* KGAlwaysAGoodTime.ttf in Resources */,
 				9F67E7F92C2DC93E00C2CEB5 /* Base in Resources */,
 				9F67E7F42C2DC93C00C2CEB5 /* Base in Resources */,
 			);

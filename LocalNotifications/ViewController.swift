@@ -97,7 +97,7 @@ class ViewController: UITableViewController {
     }
     
     func setupNavBar() {
-        title = "LocalNotifications"
+        title = "local notifications"
         navigationController?.navigationBar.prefersLargeTitles = true
     }
     
