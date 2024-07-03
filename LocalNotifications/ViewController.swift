@@ -133,9 +133,11 @@ class ViewController: UITableViewController {
     }
     
     func displayAlert(type: ViewControllerAlertType) {
-        let ac = UIAlertController(title: type.title, message: nil, preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "OK", style: .default))
-        present(ac, animated: true)
+        DispatchQueue.main.async { [weak self] in
+            let ac = UIAlertController(title: type.title, message: nil, preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            self?.present(ac, animated: true)
+        }
     }
 }
 
