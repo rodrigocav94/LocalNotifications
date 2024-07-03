@@ -132,16 +132,28 @@ class ViewController: UITableViewController {
         tableView.register(TextViewCell.self, forCellReuseIdentifier: "TextViewCell")
     }
     
-    func displayNotificationScheduledAlert() {
-        let ac = UIAlertController(title: "Notification has been scheduled!", message: nil, preferredStyle: .alert)
+    func displayAlert(type: ViewControllerAlertType) {
+        let ac = UIAlertController(title: type.title, message: nil, preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "OK", style: .default))
         present(ac, animated: true)
     }
+}
+
+// MARK: - Alert Enum Types
+enum ViewControllerAlertType {
+    case alertScheduled, pedingNotificationsRemoved, permissionGranted, permissionDenied
     
-    func displayedRemovedPendingNotifications() {
-        let ac = UIAlertController(title: "All pending notifications have been removed.", message: nil, preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "OK", style: .default))
-        present(ac, animated: true)
+    var title: String {
+        switch self {
+        case .alertScheduled:
+            "Notification has been scheduled!"
+        case .pedingNotificationsRemoved:
+            "All pending notifications have been removed."
+        case .permissionGranted:
+            "Notification permission has been granted."
+        case .permissionDenied:
+            "Notification permission has been denied."
+        }
     }
 }
 
@@ -251,11 +263,11 @@ extension ViewController: UNUserNotificationCenterDelegate  {
     func registerLocal() {
         let center = UNUserNotificationCenter.current()
         
-        center.requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
+        center.requestAuthorization(options: [.alert, .badge, .sound]) { [weak self] granted, error in
             if granted {
-                print("Yay!")
+                self?.displayAlert(type: .permissionGranted)
             } else {
-                print("D'oh!")
+                self?.displayAlert(type: .permissionDenied)
             }
         }
     }
@@ -287,7 +299,7 @@ extension ViewController: UNUserNotificationCenterDelegate  {
         // Pull out the buried userInfo dictionary
         let userInfo = response.notification.request.content.userInfo
         
-        if let customData = userInfo["customData"] as? String {
+        if let _ = userInfo["customData"] as? String {
             switch response.actionIdentifier {
             case UNNotificationDefaultActionIdentifier:
                 // The user swiped to unlock
@@ -352,7 +364,7 @@ extension ViewController: UNUserNotificationCenterDelegate  {
                     return UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
                 }
             }
-            displayNotificationScheduledAlert()
+            displayAlert(type: .alertScheduled)
             let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: repeats)
             return trigger
         case .time:
@@ -363,14 +375,14 @@ extension ViewController: UNUserNotificationCenterDelegate  {
                     return UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
                 }
             }
-            displayNotificationScheduledAlert()
+            displayAlert(type: .alertScheduled)
             dateComponents.month = nil
             dateComponents.day = nil
             dateComponents.year = nil
             let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: repeats)
             return trigger
         case .countDownTimer:
-            displayNotificationScheduledAlert()
+            displayAlert(type: .alertScheduled)
             let duration = datePicker?.countDownDuration ?? 60
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: duration, repeats: repeats)
             return trigger
@@ -380,7 +392,7 @@ extension ViewController: UNUserNotificationCenterDelegate  {
     func removePendingNotifications() {
         let center = UNUserNotificationCenter.current()
         center.removeAllPendingNotificationRequests()
-        displayedRemovedPendingNotifications()
+        displayAlert(type: .pedingNotificationsRemoved)
     }
 }
 
