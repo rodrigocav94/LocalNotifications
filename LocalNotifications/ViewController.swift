@@ -19,7 +19,7 @@ class ViewController: UITableViewController {
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        2
+        3
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -27,7 +27,9 @@ class ViewController: UITableViewController {
         case 0:
             2
         case 1:
-            4
+            3
+        case 2:
+            1
         default:
             0
         }
@@ -51,12 +53,14 @@ class ViewController: UITableViewController {
                 id = "DatePickerCell"
             case 2:
                 id = "ToggleCell"
-            case 3:
-                id = "ButtonCell"
-                buttonSettings = .scheduleNotification
             default:
                 break
             }
+            
+        case 2:
+            id = "ButtonCell"
+            buttonSettings = .scheduleNotification
+            
         default:
             break
         }
@@ -95,8 +99,6 @@ class ViewController: UITableViewController {
     func setupNavBar() {
         title = "LocalNotifications"
         navigationController?.navigationBar.prefersLargeTitles = true
-
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Schedule", style: .plain, target: self, action: #selector(scheduleLocal))
     }
     
     func registerCells() {
@@ -166,9 +168,9 @@ enum ViewControllerButton: CaseIterable {
     var color: UIColor {
         switch self {
         case .removePendingNotifications:
-            .red
+                .red
         default:
-            .tintColor
+                .tintColor
         }
     }
 }
@@ -250,7 +252,7 @@ extension ViewController: UNUserNotificationCenterDelegate  {
         completionHandler()
     }
     
-    @objc func scheduleLocal() {
+    func scheduleLocal() {
         registerCategories()
         let center = UNUserNotificationCenter.current()
         
