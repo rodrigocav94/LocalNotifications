@@ -16,6 +16,7 @@ class ViewController: UITableViewController {
         registerCells()
         setupNavBar()
         tableView.allowsSelection = false
+        tableView.keyboardDismissMode = .interactive
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -27,7 +28,7 @@ class ViewController: UITableViewController {
         case 0:
             2
         case 1:
-            1
+            2
         case 2:
             3
         case 3:
@@ -48,7 +49,14 @@ class ViewController: UITableViewController {
                 buttonSettings = .removePendingNotifications
             }
         case 1:
-            id = "TextFieldCell"
+            switch indexPath.row {
+            case 0:
+                id = "TextFieldCell"
+            case 1:
+                id = "TextViewCell"
+            default:
+                break
+            }
         case 2:
             switch indexPath.row {
             case 0:
@@ -85,6 +93,8 @@ class ViewController: UITableViewController {
             toggleCell.setup(title: "Repeat", delegate: self)
         } else if let textFieldCell = cell as? TextFieldCell {
             textFieldCell.setup(title: "Title", placeholder: "Enter the notification title", delegate: self)
+        } else if let textViewCell = cell as? TextViewCell {
+            textViewCell.setup(title: "Message", delegate: self)
         }
         
         return cell
@@ -115,8 +125,17 @@ class ViewController: UITableViewController {
         tableView.register(DatePickerCell.self, forCellReuseIdentifier: "DatePickerCell")
         tableView.register(ToggleCell.self, forCellReuseIdentifier: "ToggleCell")
         tableView.register(TextFieldCell.self, forCellReuseIdentifier: "TextFieldCell")
+        tableView.register(TextViewCell.self, forCellReuseIdentifier: "TextViewCell")
     }
 }
+
+// MARK: - TextView Methods
+extension ViewController: TextViewCellDelegate {
+    func textViewDidChange(text: String) {
+        return
+    }
+}
+
 // MARK: - TextField Methods
 extension ViewController: TextFieldDelegate {
     func onTextFieldChanged(text: String) {
