@@ -131,6 +131,18 @@ class ViewController: UITableViewController {
         tableView.register(TextFieldCell.self, forCellReuseIdentifier: "TextFieldCell")
         tableView.register(TextViewCell.self, forCellReuseIdentifier: "TextViewCell")
     }
+    
+    func displayNotificationScheduledAlert() {
+        let ac = UIAlertController(title: "Notification has been scheduled!", message: nil, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        present(ac, animated: true)
+    }
+    
+    func displayedRemovedPendingNotifications() {
+        let ac = UIAlertController(title: "All pending notifications have been removed.", message: nil, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        present(ac, animated: true)
+    }
 }
 
 // MARK: - TextView Methods
@@ -340,6 +352,7 @@ extension ViewController: UNUserNotificationCenterDelegate  {
                     return UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
                 }
             }
+            displayNotificationScheduledAlert()
             let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: repeats)
             return trigger
         case .time:
@@ -350,12 +363,14 @@ extension ViewController: UNUserNotificationCenterDelegate  {
                     return UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
                 }
             }
+            displayNotificationScheduledAlert()
             dateComponents.month = nil
             dateComponents.day = nil
             dateComponents.year = nil
             let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: repeats)
             return trigger
         case .countDownTimer:
+            displayNotificationScheduledAlert()
             let duration = datePicker?.countDownDuration ?? 60
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: duration, repeats: repeats)
             return trigger
@@ -365,6 +380,7 @@ extension ViewController: UNUserNotificationCenterDelegate  {
     func removePendingNotifications() {
         let center = UNUserNotificationCenter.current()
         center.removeAllPendingNotificationRequests()
+        displayedRemovedPendingNotifications()
     }
 }
 
