@@ -203,6 +203,8 @@ enum ViewControllerButton: CaseIterable {
         switch self {
         case .removePendingNotifications:
                 .red
+        case .scheduleNotification:
+                .white
         default:
                 .tintColor
         }

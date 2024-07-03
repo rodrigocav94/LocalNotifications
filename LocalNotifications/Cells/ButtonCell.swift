@@ -50,5 +50,9 @@ class ButtonCell: UITableViewCell {
         self.delegate = delegate
         button.setTitle(title, for: .normal)
         button.setTitleColor(color, for: .normal)
+        if color == .white {
+            button.contentHorizontalAlignment = .center
+            contentView.backgroundColor = .tintColor
+        }
     }
 }

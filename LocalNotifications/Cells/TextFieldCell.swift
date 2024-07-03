@@ -21,6 +21,7 @@ class TextFieldCell: UITableViewCell {
     
     let textField = {
         let textField = UITextField()
+        textField.tintColor = .accent
         textField.textAlignment = .right
         return textField
     }()
