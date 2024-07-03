@@ -282,15 +282,15 @@ extension ViewController: UNUserNotificationCenterDelegate  {
         let center = UNUserNotificationCenter.current()
         center.delegate = self
         
-        let show = UNNotificationAction(
-            identifier: "show",
-            title: "Tell me more...",
+        let reschedule = UNNotificationAction(
+            identifier: "reschedule",
+            title: "Remind me tomorrow.",
             options: .foreground
         )
         
         let category = UNNotificationCategory(
             identifier: "alarm",
-            actions: [show],
+            actions: [reschedule],
             intentIdentifiers: []
         )
         
@@ -301,15 +301,17 @@ extension ViewController: UNUserNotificationCenterDelegate  {
         // Pull out the buried userInfo dictionary
         let userInfo = response.notification.request.content.userInfo
         
-        if let _ = userInfo["customData"] as? String {
+        if let userInfo = userInfo["customData"] as? String {
+            assert(userInfo == "This is a local notification!") // Verify if the userInfo has been passed.
+            
             switch response.actionIdentifier {
             case UNNotificationDefaultActionIdentifier:
                 // The user swiped to unlock
                 print("Default identifier")
                 
-            case "show":
+            case "reschedule":
                 // The user tapped our "show more info..." button
-                print("Show more information...")
+                rescheduleLocal(request: response.notification.request)
             default:
                 break
             }
@@ -327,13 +329,23 @@ extension ViewController: UNUserNotificationCenterDelegate  {
         content.title = notificationTitle
         content.body = notificationMessage
         content.categoryIdentifier = "alarm"
-        content.userInfo = ["customData": "fizzbuzz"]
+        content.userInfo = ["customData": "This is a local notification!"]
         content.sound = UNNotificationSound.default
         
         let trigger = createTrigger()
         
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
         center.add(request)
+    }
+    
+    func rescheduleLocal(request: UNNotificationRequest) {
+        let center = UNUserNotificationCenter.current()
+        let newTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 86400, repeats: false)
+        
+        let content = request.content
+        let newRequest = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: newTrigger)
+        
+        center.add(newRequest)
     }
     
     func triggerNotificationImmediately() {
