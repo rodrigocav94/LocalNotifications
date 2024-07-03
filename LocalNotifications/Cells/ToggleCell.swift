@@ -19,6 +19,7 @@ class ToggleCell: UITableViewCell {
     }()
     let toggle = {
         let toggle = UISwitch()
+        toggle.onTintColor = .accent
         return toggle
     }()
     
