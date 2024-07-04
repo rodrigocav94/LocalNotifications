@@ -83,24 +83,27 @@ class ViewController: UITableViewController {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: id, for: indexPath)
         
-        if let buttonCell = cell as? ButtonCell {
-            buttonCell.customize(
+        switch cell {
+        case let cell as ButtonCell:
+            cell.customize(
                 title: buttonSettings.title,
                 color: buttonSettings.color,
                 delegate: self
             )
-        } else if let segmentedCell = cell as? SegmentedCell {
-            segmentedCell.delegate = self
-        } else if let datePickerCell = cell as? DatePickerCell {
-            datePickerCell.setup(delegate: self, datePicker: &datePicker)
-        } else if let toggleCell = cell as? ToggleCell {
-            toggleCell.setup(title: "Repeat", delegate: self)
-        } else if let textFieldCell = cell as? TextFieldCell {
-            textFieldCell.setup(title: "Title", placeholder: "Enter the notification title", delegate: self)
-        } else if let textViewCell = cell as? TextViewCell {
-            textViewCell.setup(title: "Message", delegate: self)
+        case let cell as SegmentedCell:
+            cell.delegate = self
+        case let cell as DatePickerCell:
+            cell.setup(delegate: self, datePicker: &datePicker)
+        case let cell as ToggleCell:
+            cell.setup(title: "Repeat", delegate: self)
+        case let cell as TextFieldCell:
+            cell.setup(title: "Title", placeholder: "Enter the notification title", delegate: self)
+        case let cell as TextViewCell:
+            cell.setup(title: "Message", delegate: self)
+        default:
+            break
         }
-        
+
         return cell
     }
     
